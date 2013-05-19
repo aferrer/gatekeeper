@@ -1,0 +1,1 @@
+sudo iptables -D gatekeeper-port9000 -s 10.0.0.0/8 -p tcp -m tcp --dport 9000 -m state --state NEW -j ACCEPT
