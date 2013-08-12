@@ -6,7 +6,7 @@ use warnings;
 use CGI qw/:standard/;
 
 my %services = (
-    netcat => 9001,
+    netcat => 9000,
 );
 
 print header(-charset=>'utf-8'),
@@ -15,7 +15,9 @@ print header(-charset=>'utf-8'),
 
 if (request_method() eq 'POST') {
     #print map { "$_ => $ENV{$_}<br>\n" } sort keys %ENV;
-    printf "port 9001 = %s\n", param("port_9001") eq 'ON' ? 'ON' : 'OFF';
+    printf "port 9000 = %s\n", param("port_9000") eq 'ON' ? 'ON' : 'OFF';
+    system ('sudo', '/usr/local/bin/iptables.add') == 0 or die "error calling iptables.add";
+    system ('echo "sudo /usr/local/bin/iptables.del" | at now + 2 minutes') == 0 or die "error scheduling iptables.del";
 }
 else {
     print start_form(),
