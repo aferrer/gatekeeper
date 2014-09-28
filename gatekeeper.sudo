@@ -1,0 +1,2 @@
+www-data ALL=(ALL) NOPASSWD:/usr/local/bin/iptables.add
+www-data ALL=(ALL) NOPASSWD:/usr/local/bin/iptables.del
