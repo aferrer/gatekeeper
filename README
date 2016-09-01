@@ -1,0 +1,43 @@
+GateKeeper
+==========
+
+Description
+-----------
+
+The aim of this project is to provide temporary access to 
+administrators to certain services in a box that would otherwise
+be blocked by iptables. This way, administrators can connect from
+different IPs without having to allow all of them in the box's
+firewall. This is most useful when there are dynamic IPs involved.
+
+How it works
+------------
+
+The client connects through a browser to a CGI page served by a
+webserver (in this case apache2). The CGI presents a form with a
+list of available services. When the client submits the form,
+the CGI executes two scripts: one to allow the IP to connect and
+another to remove this ACCEPT rule after two minutes.
+
+Testing
+-------
+
+In order to test the application spin up the vagrant box and
+start a netcat server listening on port 900:
+
+    nc -p 9000 -l -v -k
+
+Then, in the host, execute:
+
+    echo 'hello' | nc localhost 9080
+
+This should not show anything in the guest.
+
+Open a browser and go to 
+
+    http://localhost:8080/cgi-bin/gatekeeper.cgi
+
+And fill in the form to open port 9000 and submit. Then, repeat
+the `echo` command and it should appear in the guest. After two
+minutes, try again and it should fail.
+
